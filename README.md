@@ -1,36 +1,37 @@
-
 # Super-lightweight DI for Ruby, inspired by Angular.js
 
 ## Example
 
-    moduleA = RubyDI::Module.new 'moduleA'
-    moduleA.recipe 'announcer' do 
-      class Announcer 
-        def say
-          "hello from Announcer!"
-        end
-      end
-      Announcer.new
+```ruby
+moduleA = RubyDI::Module.new 'moduleA'
+moduleA.recipe 'announcer' do 
+  class Announcer 
+    def say
+      "hello from Announcer!"
     end
-    
-    moduleB = RubyDI::Module.new 'moduleB'
-    moduleB.recipe 'myService', %w(announcer) do |announcer|
-      class MyService
-        def initialize(announcer)
-          @announcer = announcer
-        end
+  end
+  Announcer.new
+end
 
-        def doIt!
-          @announcer.say
-        end
-      end
-      MyService.new(announcer) 
+moduleB = RubyDI::Module.new 'moduleB'
+moduleB.recipe 'myService', %w(announcer) do |announcer|
+  class MyService
+    def initialize(announcer)
+      @announcer = announcer
     end
 
-    # Creates a new module that combines the recipes
-    app = moduleA << moduleB
-    
-    app.get('myService').new.doIt! # => "hello from Announcer!"
+    def doIt!
+      @announcer.say
+    end
+  end
+  MyService.new(announcer) 
+end
+
+# Creates a new module that combines the recipes
+app = moduleA << moduleB
+
+app.get('myService').new.doIt! # => "hello from Announcer!"
+```
 
 ## Why?
 
