@@ -8,7 +8,7 @@ module RubyDI
       @built        = {}
     end
 
-    def recipe(name, dependency_names, &block)
+    def recipe(name, dependency_names = nil, &block)
       @recipes[name] = Recipe.new name, dependency_names, &block
     end
 
