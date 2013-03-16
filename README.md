@@ -20,7 +20,7 @@ moduleB.recipe 'myService', %w(announcer) do |announcer|
       @announcer = announcer
     end
 
-    def doIt!
+    def do_it!
       @announcer.say
     end
   end
@@ -30,7 +30,7 @@ end
 # Creates a new module that combines the recipes
 app = moduleA << moduleB
 
-app.get('myService').new.doIt! # => "hello from Announcer!"
+app.get('myService').new.do_it! # => "hello from Announcer!"
 ```
 
 ## Why?
