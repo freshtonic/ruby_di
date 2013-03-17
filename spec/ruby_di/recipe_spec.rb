@@ -21,14 +21,14 @@ describe Recipe do
       end
     end
 
-    subject { recipe.make ['John', 'You have mail!'] }
+    subject { recipe.make 'John', 'You have mail!' }
     it { should eq "Hi John, You have mail!" }
   end
 
   context "not providing all of the dependencies" do
     let(:recipe) { Recipe.new('test') {|a,b|} }
 
-    subject { lambda{ recipe.make ['John'] } }
+    subject { lambda{ recipe.make 'John' } }
     it { should raise_error InternalError, "1 for 2" }
   end
 end

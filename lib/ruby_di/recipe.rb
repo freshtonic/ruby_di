@@ -10,10 +10,10 @@ module RubyDI
       @steps = steps 
     end
 
-    def make(dependencies)
+    def make(*dependencies)
       actual, required = dependencies.count, @dependency_names.count
       raise InternalError, "#{actual} for #{required}" if actual != required
-      @steps.call *dependencies
+      @steps.call *Array(dependencies)
     end
 
   private

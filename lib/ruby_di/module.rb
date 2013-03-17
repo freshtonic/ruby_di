@@ -13,8 +13,8 @@ module RubyDI
     end
 
     def get(name)
-      dependencies = *resolve(@recipes[name].dependency_names)
-      @recipes[name].make dependencies
+      dependencies = resolve(@recipes[name].dependency_names)
+      @recipes[name].make *dependencies
     end
 
     def << (other)
