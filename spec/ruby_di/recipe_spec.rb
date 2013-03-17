@@ -29,6 +29,9 @@ describe Recipe do
     let(:recipe) { Recipe.new('test') {|a,b|} }
 
     subject { lambda{ recipe.make 'John' } }
-    it { should raise_error InternalError, "1 for 2" }
+    it do
+      should raise_error InternalError,
+        "incorrect number of dependencies: 1 provided, 2 required"
+    end
   end
 end

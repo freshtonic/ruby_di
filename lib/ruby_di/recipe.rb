@@ -12,7 +12,10 @@ module RubyDI
 
     def make(*dependencies)
       actual, required = dependencies.count, @dependency_names.count
-      raise InternalError, "#{actual} for #{required}" if actual != required
+      if actual != required
+        raise InternalError,
+          "incorrect number of dependencies: #{actual} provided, #{required} required"
+      end
       @steps.call *Array(dependencies)
     end
 
