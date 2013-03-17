@@ -48,18 +48,18 @@ describe RubyDI::Module do
 
     before do
       moduleA.recipe('Foo') { 'moduleA' }
-      moduleB.recipe('Bar', ['Foo']) { |foo| "my foo came from #{foo}" }
-      moduleC.recipe('Foo') { "moduleC" }
+      moduleB.recipe('Foo') { "moduleB" }
+      moduleC.recipe('Bar', ['Foo']) { |foo| "my foo came from #{foo}" }
     end
 
     describe "is not commutative, order matters" do
       let(:app) { moduleA << moduleB << moduleC }
       subject { app.get 'Bar' }
-      it { should eq "my foo came from moduleC" }
+      it { should eq "my foo came from moduleB" }
     end
 
     describe "is not commutative, order matters (different order)" do
-      let(:app) { moduleC << moduleA << moduleB }
+      let(:app) { moduleB << moduleA << moduleC }
       subject { app.get 'Bar' }
       it { should eq "my foo came from moduleA" }
     end
