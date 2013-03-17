@@ -26,7 +26,7 @@ describe RubyDI::Module do
     it { should eq 'I am a child of Mr. Smith' }
   end
 
-  describe 'module dependencies' do
+  describe 'inter-module dependencies' do
     let(:moduleA) { RubyDI::Module.new 'moduleA' }
     let(:moduleB) { RubyDI::Module.new 'moduleB' }
     let(:app) { moduleA << moduleB }
@@ -39,6 +39,30 @@ describe RubyDI::Module do
     subject { app.get('Child') }
 
     it { should eq 'I am a child of Mr. Smith' }
+  end
+
+  context "module combination" do
+    let(:moduleA) { RubyDI::Module.new 'moduleA' }
+    let(:moduleB) { RubyDI::Module.new 'moduleB' }
+    let(:moduleC) { RubyDI::Module.new 'moduleC' }
+
+    before do
+      moduleA.recipe('Foo') { 'moduleA' }
+      moduleB.recipe('Bar', ['Foo']) { |foo| "my foo came from #{foo}" }
+      moduleC.recipe('Foo') { "moduleC" }
+    end
+
+    describe "is not commutative, order matters" do
+      let(:app) { moduleA << moduleB << moduleC }
+      subject { app.get 'Bar' }
+      it { should eq "my foo came from moduleC" }
+    end
+
+    describe "is not commutative, order matters (different order)" do
+      let(:app) { moduleC << moduleA << moduleB }
+      subject { app.get 'Bar' }
+      it { should eq "my foo came from moduleA" }
+    end
   end
 
   describe 'building classes' do
