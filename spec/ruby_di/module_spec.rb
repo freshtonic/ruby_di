@@ -27,17 +27,6 @@ describe RubyDI::Module do
     it { should eq 'I am a child of Mr. Smith' }
   end
 
-  describe 'with inferred recipe dependencies' do
-    before do
-      aModule.recipe('a') { 'dep a' }
-      aModule.recipe('b') { |a| "dep b, #{a}" }
-    end
-
-    subject { aModule.get('b') }
-
-    it { should eq 'dep b, dep a' }
-  end
-  
   describe 'module dependencies' do
     let(:moduleA) { RubyDI::Module.new 'moduleA' }
     let(:moduleB) { RubyDI::Module.new 'moduleB' }
