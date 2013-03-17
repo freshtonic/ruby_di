@@ -3,26 +3,25 @@ require 'spec_helper'
 
 describe RubyDI::Module do
 
-  let(:module_with_no_dependencies) { RubyDI::Module.new 'no-deps' }
-  let(:aModule) { module_with_no_dependencies }
+  let(:theModule) {  RubyDI::Module.new 'test-module'  }
 
   describe 'with no recipe dependencies' do
     before do
-      aModule.recipe('CartoonCharacter', []) { 'I am Weasel' }
+      theModule.recipe('CartoonCharacter', []) { 'I am Weasel' }
     end
 
-    subject { aModule.get('CartoonCharacter') }
+    subject { theModule.get('CartoonCharacter') }
 
     it { should eq 'I am Weasel' }
   end
 
   describe 'with recipe dependencies' do
     before do
-      aModule.recipe('Parent', []) { 'Mr. Smith' }
-      aModule.recipe('Child', ['Parent']) { |parent| "I am a child of #{parent}" }
+      theModule.recipe('Parent', []) { 'Mr. Smith' }
+      theModule.recipe('Child', ['Parent']) { |parent| "I am a child of #{parent}" }
     end
 
-    subject { aModule.get('Child') }
+    subject { theModule.get('Child') }
 
     it { should eq 'I am a child of Mr. Smith' }
   end
